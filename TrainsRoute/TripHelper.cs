@@ -11,7 +11,7 @@ namespace TrainsRoute
         /// <summary>
         /// The network of the railway
         /// </summary>
-        static List<Edge> RailsNetWork;
+        static List<Edge> RailsNetWork = null;
 
         /// <summary>
         /// Calculate the Distance of the given route
