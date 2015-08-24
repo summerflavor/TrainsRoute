@@ -11,7 +11,7 @@ namespace TrainsRoute
         /// <summary>
         /// The network of the railway
         /// </summary>
-        static List<Edge> RailsNetWork = null;
+        public static List<Edge> RailsNetWork = new List<Edge>();
 
         /// <summary>
         /// Calculate the Distance of the given route
@@ -62,64 +62,67 @@ namespace TrainsRoute
                     return tmpRoute;
                 }
 
-                ProceedRoutes(routes, end);
+                ProceedRoutes(ref routes, end);
             }
 
             return null;
         }
 
-        private static void ProceedRoutes(List<Route> routes)
+        /// <summary>
+        /// Just proceed the route one more stop
+        /// </summary>
+        /// <param name="routes"></param>
+        private static void ProceedRoutes(ref List<Route> routes)
         {
+            List<Route> tmpRoutes = new List<Route>();
+
             foreach (var route in routes)
             {
-                Route tmp = (Route)route.Clone();
-                bool hasFoundOne = false;
-
                 foreach (var edge in RailsNetWork)
                 {
-                    if (tmp.HasReached(edge.Start))
+                    if (route.HasReached(edge.Start))
                     {
-                        if (!hasFoundOne)
-                        {
-                            route.AddEdge(edge);
-                            hasFoundOne = true;
-                        }
-                        else
-                        {
-                            Route newRoute = (Route)tmp.Clone();
-                            newRoute.AddEdge(edge);
-                            routes.Add(newRoute);
-                        }
+                        Route tmpRoute = (Route)route.Clone();
+                        tmpRoute.AddEdge(edge);
+                        tmpRoutes.Add(tmpRoute);
                     }
                 }
             }
+
+            routes = tmpRoutes;
         }
 
-        private static void ProceedRoutes(List<Route> routes, Stop end)
+        /// <summary>
+        /// Proceed the routes to the end stop
+        /// </summary>
+        /// <param name="routes"></param>
+        /// <param name="end"></param>
+        private static void ProceedRoutes(ref List<Route> routes, Stop end)
         {
+            List<Route> tmpRoutes = new List<Route>();
+
             foreach (var route in routes)
             {
-                Route tmp = (Route)route.Clone();
-                bool hasFoundOne = false;
-
-                foreach (var edge in RailsNetWork)
+                if (route.HasReached(end)) // The route has reached the end just copy
                 {
-                    if (!tmp.HasReached(end) && tmp.HasReached(edge.Start))
+                    tmpRoutes.Add(route);
+                }
+                else // the route hasn't reached the end just proceed
+                {
+                    foreach (var edge in RailsNetWork)
                     {
-                        if (!hasFoundOne)
+                        if (route.HasReached(edge.Start))
                         {
-                            route.AddEdge(edge);
-                            hasFoundOne = true;
-                        }
-                        else
-                        {
-                            Route newRoute = (Route)tmp.Clone();
-                            newRoute.AddEdge(edge);
-                            routes.Add(newRoute);
+                            Route tmpRoute = (Route)route.Clone();
+                            tmpRoute.AddEdge(edge);
+                            tmpRoutes.Add(tmpRoute);
                         }
                     }
                 }
+
             }
+
+            routes = tmpRoutes;
         }
 
         /// <summary>
@@ -128,41 +131,31 @@ namespace TrainsRoute
         /// <param name="routes"></param>
         /// <param name="distance"></param>
         /// <returns>Indicate if any of the route can proceed</returns>
-        private static bool ProceedRoutesWihtinDistance(List<Route> routes, int distance)
+        private static bool ProceedRoutesWihtinDistance(ref List<Route> routes, int distance)
         {
-            bool canStillProceed = false; 
+            bool canStillProceed = false;
+
+            List<Route> tmpRoutes = new List<Route>();
 
             foreach (var route in routes)
             {
-                if (route.Distance >= distance)
-                {
-                    continue;
-                }
-
-                Route tmpRoute = (Route)route.Clone();
-                bool hasFoundOne = false;
-
                 foreach (var edge in RailsNetWork)
                 {
-                    if (tmpRoute.HasReached(edge.Start))
+                    if (route.HasReached(edge.Start))
                     {
-                        if (!hasFoundOne)
-                        {
-                            route.AddEdge(edge);
-                            hasFoundOne = true;
-                        }
-                        else
-                        {
-                            routes.Add(new Route(edge));
-                        }
+                        Route tmpRoute = (Route)route.Clone();
+                        tmpRoute.AddEdge(edge);
 
-                        if((canStillProceed == false) && (tmpRoute.Distance + edge.Distance) < distance)
+                        if (tmpRoute.Distance < distance)
                         {
+                            tmpRoutes.Add(tmpRoute);
                             canStillProceed = true;
                         }
                     }
                 }
             }
+
+            routes = tmpRoutes;
 
             return canStillProceed;
         }
@@ -180,26 +173,26 @@ namespace TrainsRoute
 
             for (int i = 1; i <= stopsNumber; i++)
             {
-                routes.AddRange(RoutesWithCertainStops(start, end, i));
+                routes.AddRange(RoutesWithExactStops(start, end, i));
             }
 
             return routes;
         }
 
         /// <summary>
-        /// Get the routes with certain number of stops between start and end
+        /// Get the routes with exact number of stops between start and end
         /// </summary>
         /// <param name="start">The start stop</param>
         /// <param name="end">The edn stop</param>
         /// <param name="stopsNumber">The number of stops</param>
         /// <returns></returns>
-        public static List<Route> RoutesWithCertainStops(Stop start, Stop end, int stopsNumber)
+        public static List<Route> RoutesWithExactStops(Stop start, Stop end, int stopsNumber)
         {
             List<Route> routes = new List<Route>();
 
             foreach (var edge in RailsNetWork)
             {
-                if(edge.Start.Name == start.Name)
+                if (edge.Start.Name == start.Name)
                 {
                     routes.Add(new Route(edge));
                 }
@@ -207,18 +200,20 @@ namespace TrainsRoute
 
             for (int i = 0; i < stopsNumber - 1; i++)
             {
-                ProceedRoutes(routes);
+                ProceedRoutes(ref routes);
             }
+
+            List<Route> matchedRoutes = new List<Route>();
 
             foreach (var route in routes)
             {
-                if (!route.HasReached(end))
+                if (route.HasReached(end))
                 {
-                    routes.Remove(route);
+                    matchedRoutes.Add(route);
                 }
             }
 
-            return routes;
+            return matchedRoutes;
         }
 
         /// <summary>
@@ -245,15 +240,15 @@ namespace TrainsRoute
             {
                 foreach (var route in routes)
                 {
-                    if(route.HasReached(end))
+                    if (route.HasReached(end))
                     {
                         tmpRoutes.Add((Route)route.Clone());
                     }
                 }
 
-            } while (ProceedRoutesWihtinDistance(routes, distance));
+            } while (ProceedRoutesWihtinDistance(ref routes, distance));
 
-            return null;
+            return tmpRoutes;
         }
     }
 }

@@ -39,7 +39,8 @@ namespace TrainsRoute
 
         public object Clone()
         {
-            Route newRoute = new Route();
+            Route newRoute = (Route)this.MemberwiseClone();
+            newRoute.edges = new List<Edge>();
 
             foreach (var item in edges)
             {
@@ -78,6 +79,31 @@ namespace TrainsRoute
         public bool HasReached(Stop stop)
         {
             return edges[edges.Count - 1].End.Name == stop.Name;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("Route:");
+
+            if(this.edges.Count > 0)
+            {
+                sb.Append(this.edges[0].Start.Name);
+
+                foreach (var edge in this.edges)
+                {
+                    sb.Append("->");
+                    sb.Append(edge.End.Name);
+                }
+
+                sb.Append(", Distance: "); sb.Append(this.distance);
+                sb.Append(", Stops: "); sb.Append(this.numberofStops);
+            }
+            else
+            {
+                sb.Append("Empty route");
+            }
+
+            return sb.ToString();
         }
     }
 }
