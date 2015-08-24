@@ -16,6 +16,13 @@ namespace TrainsRoute
 
         public Edge() { }
 
+        public Edge(Stop start, Stop end)
+        {
+            this.Start = start;
+            this.End = end;
+            this.Distance = 0;
+        }
+
         public Edge(Stop start, Stop end, int distance)
         {
             this.Start = start;

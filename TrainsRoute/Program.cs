@@ -40,7 +40,23 @@ namespace TrainsRoute
 
                     for (int i = 0; i < strStops.Length - 1; i++)
                     {
+                        route.AddEdge(new Edge(new Stop(strStops[i]), new Stop(strStops[i + 1])));
                     }
+
+                    Console.WriteLine("Caculate route distance:");
+
+                    if(route.IsValidOn(TripHelper.RailsNetWork))
+                    {
+                        route.AddDistanceForm(TripHelper.RailsNetWork);
+                        Console.WriteLine(route.ToString());
+                    }
+                    else
+                    {
+                        Console.WriteLine(route.ToString());
+                        Console.WriteLine("NO SUCH ROUTE");
+                    }
+
+                    Console.WriteLine();
 
                 }
                 else if(item.Name == Program.ShortestRoute)
@@ -51,6 +67,7 @@ namespace TrainsRoute
 
                     Console.WriteLine("The shortest route from {0} to {1} is :", strStops[0], strStops[1]);
                     Console.WriteLine(route.ToString());
+                    Console.WriteLine();
                 }
                 else if (item.Name == Program.RouteWithExactStops)
                 {
@@ -64,7 +81,7 @@ namespace TrainsRoute
                     {
                         Console.WriteLine(route.ToString());
                     }
-
+                    Console.WriteLine();
                 }
                 else if (item.Name == Program.RouteWthinCertainStops)
                 {
@@ -78,6 +95,7 @@ namespace TrainsRoute
                     {
                         Console.WriteLine(route.ToString());
                     }
+                    Console.WriteLine();
                 }
                 else if (item.Name == Program.RouteWthinCertainDistance)
                 {
@@ -91,6 +109,7 @@ namespace TrainsRoute
                     {
                         Console.WriteLine(route.ToString());
                     }
+                    Console.WriteLine();
                 }
                 else
                 {
@@ -98,9 +117,7 @@ namespace TrainsRoute
                 }
             }
 
-
             Console.ReadKey();
-            
         }
     }
 }

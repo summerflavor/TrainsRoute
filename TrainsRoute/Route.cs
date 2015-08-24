@@ -8,18 +8,52 @@ namespace TrainsRoute
 {
     class Route : ICloneable
     {
-        private int numberofStops;
-        private int distance;
         private List<Edge> edges = new List<Edge>();
 
-        public Route()
-        {
-
-        }
+        public Route() { }
 
         public Route(Edge statEdge)
         {
             AddEdge(statEdge);
+        }
+
+        public bool IsValidOn(List<Edge> railwayNetwork)
+        {
+            bool notFound = true;
+
+            foreach (var edge in edges)
+            {
+                notFound = true;
+
+                foreach (var railEdge in railwayNetwork)
+                {
+                    if (edge.Start.Name == railEdge.Start.Name && edge.End.Name == railEdge.End.Name)
+                    {
+                        notFound = false;
+                    }
+                }
+
+                if (notFound)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public void AddDistanceForm(List<Edge> railwayNetwork)
+        {
+            foreach (var edge in edges)
+            {
+                foreach (var railEdge in railwayNetwork)
+                {
+                    if (edge.Start.Name == railEdge.Start.Name && edge.End.Name == edge.End.Name)
+                    {
+                        edge.Distance = railEdge.Distance;
+                    }
+                }
+            }
         }
 
         public List<Edge> Edges
@@ -33,8 +67,6 @@ namespace TrainsRoute
         public void AddEdge(Edge edge)
         {
             this.edges.Add(edge);
-            this.NumberofStops++;
-            this.Distance += edge.Distance;
         }
 
         public object Clone()
@@ -54,12 +86,7 @@ namespace TrainsRoute
         {
             get
             {
-                return numberofStops;
-            }
-
-            private set
-            {
-                numberofStops = value;
+                return edges.Count;
             }
         }
 
@@ -67,12 +94,12 @@ namespace TrainsRoute
         {
             get
             {
+                int distance = 0;
+                foreach (var edge in edges)
+                {
+                    distance += edge.Distance;
+                }
                 return distance;
-            }
-
-            private set
-            {
-                distance = value;
             }
         }
 
@@ -85,7 +112,7 @@ namespace TrainsRoute
         {
             StringBuilder sb = new StringBuilder("Route:");
 
-            if(this.edges.Count > 0)
+            if (this.edges.Count > 0)
             {
                 sb.Append(this.edges[0].Start.Name);
 
@@ -95,8 +122,8 @@ namespace TrainsRoute
                     sb.Append(edge.End.Name);
                 }
 
-                sb.Append(", Distance: "); sb.Append(this.distance);
-                sb.Append(", Stops: "); sb.Append(this.numberofStops);
+                sb.Append(", Distance: "); sb.Append(Distance);
+                sb.Append(", Stops: "); sb.Append(NumberofStops);
             }
             else
             {

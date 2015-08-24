@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Input>
+  
   <Edges>
     <Edge>AB5</Edge>
     <Edge>BC4</Edge>
@@ -13,6 +14,7 @@
   </Edges>
 
   <Qustions>
+    
     <RouteDistance>A-B-C</RouteDistance>
     <RouteDistance>A-D</RouteDistance>
     <RouteDistance>A-D-C</RouteDistance>
@@ -23,6 +25,7 @@
     <ShortestRoute>A-C</ShortestRoute>
     <ShortestRoute>B-B</ShortestRoute>
     <RouteWthinCertainDistance>C-C-30</RouteWthinCertainDistance>
+    
   </Qustions>
   
 </Input>
