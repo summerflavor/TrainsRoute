@@ -123,6 +123,51 @@ namespace TrainsRoute
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="routes"></param>
+        /// <param name="distance"></param>
+        /// <returns>Indicate if any of the route can proceed</returns>
+        private static bool ProceedRoutesWihtinDistance(List<Route> routes, int distance)
+        {
+            bool canStillProceed = false; 
+
+            foreach (var route in routes)
+            {
+                if (route.Distance >= distance)
+                {
+                    continue;
+                }
+
+                Route tmpRoute = (Route)route.Clone();
+                bool hasFoundOne = false;
+
+                foreach (var edge in RailsNetWork)
+                {
+                    if (tmpRoute.HasReached(edge.Start))
+                    {
+                        if (!hasFoundOne)
+                        {
+                            route.AddEdge(edge);
+                            hasFoundOne = true;
+                        }
+                        else
+                        {
+                            routes.Add(new Route(edge));
+                        }
+
+                        if((canStillProceed == false) && (tmpRoute.Distance + edge.Distance) < distance)
+                        {
+                            canStillProceed = true;
+                        }
+                    }
+                }
+            }
+
+            return canStillProceed;
+        }
+
+        /// <summary>
         /// Get the routes within certain number of stops between start and end
         /// </summary>
         /// <param name="start">The start stop</param>
@@ -185,6 +230,29 @@ namespace TrainsRoute
         /// <returns></returns>
         public static List<Route> RoutesWithinCertainDistance(Stop start, Stop end, int distance)
         {
+            List<Route> routes = new List<Route>();
+            List<Route> tmpRoutes = new List<Route>();
+
+            foreach (var edge in RailsNetWork)
+            {
+                if (edge.Start.Name == start.Name)
+                {
+                    routes.Add(new Route(edge));
+                }
+            }
+
+            do
+            {
+                foreach (var route in routes)
+                {
+                    if(route.HasReached(end))
+                    {
+                        tmpRoutes.Add((Route)route.Clone());
+                    }
+                }
+
+            } while (ProceedRoutesWihtinDistance(routes, distance));
+
             return null;
         }
     }
