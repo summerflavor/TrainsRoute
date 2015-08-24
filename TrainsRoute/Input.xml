@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Input>
+  
+  <Edges>
+    <Edge>AB5</Edge>
+    <Edge>BC4</Edge>
+    <Edge>CD8</Edge>
+    <Edge>DC8</Edge>
+    <Edge>DE6</Edge>
+    <Edge>AD5</Edge>
+    <Edge>CE2</Edge>
+    <Edge>EB3</Edge>
+    <Edge>AE7</Edge>
+  </Edges>
+
+  <Qustions>
+    <RouteDistance>A-B-C</RouteDistance>
+    <RouteDistance>A-D</RouteDistance>
+    <RouteDistance>A-D-C</RouteDistance>
+    <RouteDistance>A-E-B-C-D</RouteDistance>
+    <RouteDistance>A-E-D</RouteDistance>
+    <RouteWthinCertainStops>C-C-3</RouteWthinCertainStops>
+    <RouteWithExactStops>A-C-4</RouteWithExactStops>
+    <ShortestRoute>A-C</ShortestRoute>
+    <ShortestRoute>B-B</ShortestRoute>
+    <RouteWthinCertainDistance>C-C-30</RouteWthinCertainDistance>
+  </Qustions>
+  
+</Input>
