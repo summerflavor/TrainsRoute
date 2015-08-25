@@ -8,22 +8,22 @@ namespace TrainsRoute
 {
     class Edge
     {
-        public Stop Start { get; set; }
+        public string Start { get; set; }
 
-        public Stop End { get; set; }
+        public string End { get; set; }
 
         public int Distance { get; set; }
 
         public Edge() { }
 
-        public Edge(Stop start, Stop end)
+        public Edge(string start, string end)
         {
             this.Start = start;
             this.End = end;
             this.Distance = 0;
         }
 
-        public Edge(Stop start, Stop end, int distance)
+        public Edge(string start, string end, int distance)
         {
             this.Start = start;
             this.End = end;

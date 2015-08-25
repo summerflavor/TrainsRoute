@@ -25,7 +25,7 @@ namespace TrainsRoute
             foreach (XmlElement item in nodeList)
             {
                 Char[] chars = item.InnerText.ToCharArray();
-                Edge tmpEdge = new Edge( new Stop(chars[0].ToString()), new Stop(chars[1].ToString()), int.Parse( chars[2].ToString()));
+                Edge tmpEdge = new Edge( chars[0].ToString(), chars[1].ToString(), int.Parse( chars[2].ToString()));
                 TripHelper.RailsNetWork.Add(tmpEdge);
             }
 
@@ -40,7 +40,7 @@ namespace TrainsRoute
 
                     for (int i = 0; i < strStops.Length - 1; i++)
                     {
-                        route.AddEdge(new Edge(new Stop(strStops[i]), new Stop(strStops[i + 1])));
+                        route.AddEdge(new Edge(strStops[i], strStops[i + 1]));
                     }
 
                     Console.WriteLine("Caculate route distance:");
@@ -63,7 +63,7 @@ namespace TrainsRoute
                 {
                     string[] strStops = item.InnerText.Split('-');
 
-                    Route route = TripHelper.ShortestRoute(new Stop(strStops[0]), new Stop(strStops[1]));
+                    Route route = TripHelper.ShortestRoute(strStops[0], strStops[1]);
 
                     Console.WriteLine("The shortest route from {0} to {1} is :", strStops[0], strStops[1]);
                     Console.WriteLine(route.ToString());
@@ -73,7 +73,7 @@ namespace TrainsRoute
                 {
                     string[] strParams = item.InnerText.Split('-');
 
-                    List<Route> routes = TripHelper.RoutesWithExactStops(new Stop(strParams[0]), new Stop(strParams[1]), int.Parse(strParams[2]));
+                    List<Route> routes = TripHelper.RoutesWithExactStops(strParams[0], strParams[1], int.Parse(strParams[2]));
 
                     Console.WriteLine("The routes from {0} to {1} with {2} stops:", strParams[0], strParams[1], strParams[2]);
 
@@ -87,7 +87,7 @@ namespace TrainsRoute
                 {
                     string[] strParams = item.InnerText.Split('-');
 
-                    List<Route> routes = TripHelper.RoutesWithinCertainStops(new Stop(strParams[0]), new Stop(strParams[1]), int.Parse(strParams[2]));
+                    List<Route> routes = TripHelper.RoutesWithinCertainStops(strParams[0], strParams[1], int.Parse(strParams[2]));
 
                     Console.WriteLine("The routes from {0} to {1} within {2} stops:", strParams[0], strParams[1], strParams[2]);
 
@@ -101,7 +101,7 @@ namespace TrainsRoute
                 {
                     string[] strParams = item.InnerText.Split('-');
 
-                    List<Route> routes = TripHelper.RoutesWithinCertainDistance(new Stop(strParams[0]), new Stop(strParams[1]), int.Parse(strParams[2]));
+                    List<Route> routes = TripHelper.RoutesWithinCertainDistance(strParams[0], strParams[1], int.Parse(strParams[2]));
 
                     Console.WriteLine("The routes from {0} to {1} within distance {2}:", strParams[0], strParams[1], strParams[2]);
 

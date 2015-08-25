@@ -27,7 +27,7 @@ namespace TrainsRoute
 
                 foreach (var railEdge in railwayNetwork)
                 {
-                    if (edge.Start.Name == railEdge.Start.Name && edge.End.Name == railEdge.End.Name)
+                    if (edge.Start == railEdge.Start && edge.End == railEdge.End)
                     {
                         notFound = false;
                     }
@@ -48,7 +48,7 @@ namespace TrainsRoute
             {
                 foreach (var railEdge in railwayNetwork)
                 {
-                    if (edge.Start.Name == railEdge.Start.Name && edge.End.Name == edge.End.Name)
+                    if (edge.Start == railEdge.Start && edge.End == edge.End)
                     {
                         edge.Distance = railEdge.Distance;
                     }
@@ -103,9 +103,9 @@ namespace TrainsRoute
             }
         }
 
-        public bool HasReached(Stop stop)
+        public bool HasReached(string stop)
         {
-            return edges[edges.Count - 1].End.Name == stop.Name;
+            return edges[edges.Count - 1].End == stop;
         }
 
         public override string ToString()
@@ -114,12 +114,12 @@ namespace TrainsRoute
 
             if (this.edges.Count > 0)
             {
-                sb.Append(this.edges[0].Start.Name);
+                sb.Append(this.edges[0].Start);
 
                 foreach (var edge in this.edges)
                 {
                     sb.Append("->");
-                    sb.Append(edge.End.Name);
+                    sb.Append(edge.End);
                 }
 
                 sb.Append(", Distance: "); sb.Append(Distance);

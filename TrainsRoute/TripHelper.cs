@@ -29,13 +29,13 @@ namespace TrainsRoute
         /// <param name="start">The start stop</param>
         /// <param name="end">The end stop</param>
         /// <returns></returns>
-        public static Route ShortestRoute(Stop start, Stop end)
+        public static Route ShortestRoute(string start, string end)
         {
             List<Route> routes = new List<Route>();
 
             foreach (var edge in RailsNetWork)
             {
-                if (edge.Start.Name == start.Name)
+                if (edge.Start == start)
                 {
                     Route r = new Route();
                     r.AddEdge(edge);
@@ -97,7 +97,7 @@ namespace TrainsRoute
         /// </summary>
         /// <param name="routes"></param>
         /// <param name="end"></param>
-        private static void ProceedRoutes(ref List<Route> routes, Stop end)
+        private static void ProceedRoutes(ref List<Route> routes, string end)
         {
             List<Route> tmpRoutes = new List<Route>();
 
@@ -167,7 +167,7 @@ namespace TrainsRoute
         /// <param name="end">The edn stop</param>
         /// <param name="stopsNumber">The number of stops</param>
         /// <returns></returns>
-        public static List<Route> RoutesWithinCertainStops(Stop start, Stop end, int stopsNumber)
+        public static List<Route> RoutesWithinCertainStops(string start, string end, int stopsNumber)
         {
             List<Route> routes = new List<Route>();
 
@@ -186,13 +186,13 @@ namespace TrainsRoute
         /// <param name="end">The edn stop</param>
         /// <param name="stopsNumber">The number of stops</param>
         /// <returns></returns>
-        public static List<Route> RoutesWithExactStops(Stop start, Stop end, int stopsNumber)
+        public static List<Route> RoutesWithExactStops(string start, string end, int stopsNumber)
         {
             List<Route> routes = new List<Route>();
 
             foreach (var edge in RailsNetWork)
             {
-                if (edge.Start.Name == start.Name)
+                if (edge.Start == start)
                 {
                     routes.Add(new Route(edge));
                 }
@@ -223,14 +223,14 @@ namespace TrainsRoute
         /// <param name="end">The edn stop</param>
         /// <param name="stopsNumber">The distance required</param>
         /// <returns></returns>
-        public static List<Route> RoutesWithinCertainDistance(Stop start, Stop end, int distance)
+        public static List<Route> RoutesWithinCertainDistance(string start, string end, int distance)
         {
             List<Route> routes = new List<Route>();
             List<Route> tmpRoutes = new List<Route>();
 
             foreach (var edge in RailsNetWork)
             {
-                if (edge.Start.Name == start.Name)
+                if (edge.Start == start)
                 {
                     routes.Add(new Route(edge));
                 }
