@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Input>
   
+  <!--The route composing the railway-->
   <Edges>
     <Edge>AB5</Edge>
     <Edge>BC4</Edge>
@@ -15,15 +16,24 @@
 
   <Qustions>
     
+    <!--The input for calculating the distance of a certain route-->
     <RouteDistance>A-B-C</RouteDistance>
     <RouteDistance>A-D</RouteDistance>
     <RouteDistance>A-D-C</RouteDistance>
     <RouteDistance>A-E-B-C-D</RouteDistance>
     <RouteDistance>A-E-D</RouteDistance>
+    
+    <!--The input for geting the trips starting at a stop and ending at another with a maximum of specified stops -->
     <RouteWthinCertainStops>C-C-3</RouteWthinCertainStops>
+    
+    <!--The intput for geting trips starting at a stop and ending at another with exactly 4 stops.-->
     <RouteWithExactStops>A-C-4</RouteWithExactStops>
+
+    <!--The input for geting the the shortest route-->
     <ShortestRoute>A-C</ShortestRoute>
     <ShortestRoute>B-B</ShortestRoute>
+    
+    <!--The input for get different routes from a stop to another stop with a distance of less than a distance-->
     <RouteWthinCertainDistance>C-C-30</RouteWthinCertainDistance>
     
   </Qustions>

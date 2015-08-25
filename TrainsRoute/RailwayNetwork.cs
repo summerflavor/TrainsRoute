@@ -21,7 +21,6 @@ namespace TrainsRoute
 
         public RailwayNetwork()
         {
-
         }
 
         public void Initialize(List<Edge> edges)
