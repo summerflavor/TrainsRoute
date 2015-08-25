@@ -17,42 +17,42 @@ namespace TrainsRoute
             AddEdge(statEdge);
         }
 
-        public bool IsValidOn(List<Edge> railwayNetwork)
+        public Route(List<Edge> edges)
         {
-            bool notFound = true;
-
-            foreach (var edge in edges)
-            {
-                notFound = true;
-
-                foreach (var railEdge in railwayNetwork)
-                {
-                    if (edge.Start == railEdge.Start && edge.End == railEdge.End)
-                    {
-                        notFound = false;
-                    }
-                }
-
-                if (notFound)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            this.edges.AddRange(edges);
         }
 
-        public void AddDistanceForm(List<Edge> railwayNetwork)
+        public string FirstStop
+        {
+            get
+            {
+                if(edges.Count > 0)
+                {
+                    return edges[0].Start;
+                }
+
+                throw new Exception("The route is empty.");
+            }
+        }
+
+        public string LastStop
+        {
+            get
+            {
+                if (edges.Count > 0)
+                {
+                    return edges[edges.Count - 1].End;
+                }
+
+                throw new Exception("The route is empty.");
+            }
+        }
+
+        public void AddDistanceToEdges(RailwayNetwork railwayNetwork)
         {
             foreach (var edge in edges)
             {
-                foreach (var railEdge in railwayNetwork)
-                {
-                    if (edge.Start == railEdge.Start && edge.End == edge.End)
-                    {
-                        edge.Distance = railEdge.Distance;
-                    }
-                }
+                edge.Distance = railwayNetwork.GetDistance(edge.Start, edge.End);
             }
         }
 
@@ -60,7 +60,7 @@ namespace TrainsRoute
         {
             get
             {
-                return edges;
+                return new List<Edge>(edges);
             }
         }
 

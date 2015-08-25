@@ -8,9 +8,9 @@ namespace TrainsRoute
 {
     class Edge
     {
-        public string Start { get; set; }
+        public string Start { get; private set; }
 
-        public string End { get; set; }
+        public string End { get; private set; }
 
         public int Distance { get; set; }
 
@@ -30,5 +30,14 @@ namespace TrainsRoute
             this.Distance = distance;
         }
 
+        public bool IsStartedFrom(string stop)
+        {
+            return (Start == stop);
+        }
+
+        public bool IsStoppedAt(string stop)
+        {
+            return (End == stop);
+        }
     }
 }
